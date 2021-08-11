@@ -1,0 +1,54 @@
+Thank you for purchasing!
+
+
+Instructions:
+To get the most of these battlers you should set the SV attack images in your MV system to "none."
+this will disable any default weapon images from showing up during attack motions.
+
+There is a layered file provided with the largest resolution of the sheets for those who would like to try resize to higher resolutions.
+The provided size is 2700x1200. that's 300x200 for each animation frame.
+
+Helpful tips:
+the "escape motion" on the battlers sheet can also be use as a forward dash motion if you
+are designing elaborate movement during combat. This is easily achived with Yanfly's action sequence plugins.
+I've attached my customized action sequence to serve as an example.
+
+
+<setup action>
+display action
+immortal: targets, true
+WAIT FOR ANIMATION
+</setup action>
+
+<Whole Action>
+motion escape: user
+move user: targets, front, 25
+face user: home
+wait: 24
+face user: target
+motion standby: user
+wait for movement
+</Whole Action>
+
+<target action>
+motion swing: user
+wait: 15
+attack animation: target
+wait for motion
+WAIT FOR ANIMATION
+action effect
+</target action>
+
+<follow action>
+face user: forward
+jump user: 50, 25
+move user: return, 25
+motion escape: user
+wait for movement
+immortal: targets, false
+</follow action>
+
+Terms:
+Can be used for commercial use.
+Cannot be redistributed to others as is for resale, for free or any other purpose except for use in your own game.
+Please provide credit to Robert "Low" Pinero

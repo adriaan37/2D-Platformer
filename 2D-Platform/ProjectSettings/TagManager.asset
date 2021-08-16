@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Boss
+  - Target
+  - HealthUp
   layers:
   - Default
   - TransparentFX
@@ -16,8 +20,8 @@ TagManager:
   - Background
   - MidGround
   - ForeGround
-  - Characters
-  - 
+  - Player
+  - Enemies
   - 
   - 
   - 
@@ -49,7 +53,4 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: 
-    uniqueID: 2273472845
     locked: 0

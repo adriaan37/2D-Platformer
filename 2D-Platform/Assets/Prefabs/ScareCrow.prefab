@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 6445756165675852086}
   - component: {fileID: 6445756165675852085}
   - component: {fileID: 6445756165675852080}
-  - component: {fileID: 6445756165675852087}
+  - component: {fileID: 6588108399302273436}
+  - component: {fileID: 2778404459278109687}
+  - component: {fileID: 3175667423089119753}
   m_Layer: 0
   m_Name: ScareCrow
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,7 +93,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6445756165675852084}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -104,8 +106,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &6445756165675852087
-PolygonCollider2D:
+--- !u!61 &6588108399302273436
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -113,7 +115,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 6445756165675852084}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b20d511f25605fa4ab81cbbb1ee36628, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -127,25 +129,40 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 1, y: 0.03125}
-      - {x: 1, y: 0.4375}
-      - {x: 0.5625, y: 0.5625}
-      - {x: 0.625, y: 0.875}
-      - {x: 0.625, y: 0.96875}
-      - {x: 0.1875, y: 1.40625}
-      - {x: -0.1875, y: 1.40625}
-      - {x: -0.6875, y: 0.875}
-      - {x: -0.625, y: 0.5}
-      - {x: -1, y: 0.375}
-      - {x: -1, y: 0.0625}
-      - {x: -0.84375, y: -0.0625}
-      - {x: -0.34375, y: -0.0625}
-      - {x: -0.4375, y: -0.53125}
-      - {x: -0.4375, y: -0.96875}
-      - {x: -0.125, y: -1.40625}
-      - {x: 0.15625, y: -1.40625}
-      - {x: 0.4375, y: -0.90625}
-      - {x: 0.46875, y: -0.46875}
-      - {x: 0.65625, y: -0.09375}
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2.8125}
+  m_EdgeRadius: 0
+--- !u!95 &2778404459278109687
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6445756165675852084}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5041e37cd2723643a38d5b6f88717f6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3175667423089119753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6445756165675852084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc01c278763896f4f835574352bab8b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2778404459278109687}
+  maxHealth: 1
+  currentHealth: 1

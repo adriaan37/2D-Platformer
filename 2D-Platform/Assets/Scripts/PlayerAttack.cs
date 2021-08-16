@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public Animator animator;
-    public Enemy enemy;
+    public AudioSource attackSound;
+    Enemy enemy;
     public Transform Attackpoint;
     public float AttackRange = 0.5f;
     public LayerMask enemyLayers;
-    public int attackDamage = 40;
+    public int attackDamage = 1;
     public float attackRate = 2f;
     float nextAttackTime = 0f;
     private float attackDetails;
@@ -33,6 +34,7 @@ public class PlayerAttack : MonoBehaviour
     void Attack()
     {
         animator.SetTrigger("isAttack");
+        attackSound.Play();
 
         Collider2D[] hitenemies = Physics2D.OverlapCircleAll(Attackpoint.position,AttackRange,enemyLayers);
         attackDetails = attackDamage;

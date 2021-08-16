@@ -1,204 +1,107 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-
-    private enum State
-     {
-         Walking,
-         Attack,
-         Hurt,
-         Dead
-
-     }
-    private State currentState;
-    private GameObject alive;
-    private Rigidbody2D aliveRb;
-    private Animator animator;
+    public float walkSpeed;
+    public bool mustPatrol;
+    Rigidbody2D rb;
+    public Collider2D bodycollider;
+    private bool mustTurn;
+    public Transform groundCheckpos;
+    public LayerMask groundLayer;
+    public Animator animator;
 
     [SerializeField]
-    private float groundCheckDistance;
+    Transform player;
+
     [SerializeField]
-    private float wallCheckDistance;
-    [SerializeField]
-    private float movementSpeed;
-    [SerializeField]
-    private float maxHealth;
-    [SerializeField]
-    private Transform groundcheck;
+    float agroRange;
     
-    [SerializeField]
-    private Transform wallCheck;
 
-    [SerializeField]
-    private LayerMask whatisGround;
-
-    private int facingDirection;
-    private float currentHealth;
-    private int damageDirection;
-  
-
-    private Vector2 movement;
-
-    private bool groundDetected;
-    private bool wallDetected;
-
-    private void Start()
-    {
-        alive = transform.Find("Alive").gameObject;
-        aliveRb = alive.GetComponent<Rigidbody2D>();
-        animator = alive.GetComponent<Animator>();
-        facingDirection = 1;
-    }
-    private void Update()
-    {
-        switch(currentState)
-        {
-            case State.Walking:
-                UpdateWalkingState();
-                break;
-            case State.Attack:
-                UpdateAttackState();
-                break;
-            case State.Hurt:
-                UpdateHurtState();
-                break;
-            case State.Dead:
-                UpdateDeadState();
-                break;
-        }
-    }
-
-    private void EnterWalkingState()
-    {
-         //animator.SetFloat("Speed", Mathf.Abs(horzMove));
-    }
-     private void UpdateWalkingState()
-    {
-        groundDetected = Physics2D.Raycast(groundcheck.position,Vector2.down,groundCheckDistance,whatisGround);
-        wallDetected = Physics2D.Raycast(wallCheck.position,transform.right,wallCheckDistance,whatisGround);
-        if(!groundDetected || wallDetected)
-        {
-            Flip();
-        }
-        else
-        {
-            movement.Set(movementSpeed*facingDirection,aliveRb.velocity.y);
-            aliveRb.velocity = movement;
-        }
-    }
-
-    private void ExitWalkingState()
-    {
-
-    }
-
-    
-    private void EnterAttackState()
-    {
-        animator.SetTrigger("isAttack");
-    }
-
-    private void UpdateAttackState()
-    {
-
-    }
-
-    private void ExitAttackState()
-    {
+    // void Start()
+    // {
+    //     mustPatrol = true;
+    //     rb = GetComponent<Rigidbody2D>();
         
-    }
 
-    
-    private void EnterHurtState()
-    {
-        animator.SetTrigger("Hurt");
-    }
+    // }
 
-    private void UpdateHurtState()
-    {
+    // void Update()
+    // {
+    //     if (mustPatrol)
+    //     {
+    //         Patrol();
+            
+    //     }
+
+    // }
+    //  void FixedUpdate()
+    // {
+    //     if (mustPatrol)
+    //     {
+    //         mustTurn = !Physics2D.OverlapCircle(groundCheckpos.position, 0.1f, groundLayer);
+    //     }
+    // }
+    // void Patrol(){
         
-    }
-
-    private void ExitHurtState()
-    {
+    //     if (mustTurn || bodycollider.IsTouchingLayers(groundLayer))
+    //     {
+    //         Flip();
+    //     }
+    //     rb.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb.velocity.y);
+    //     animator.SetFloat("Speed",Mathf.Abs(walkSpeed));
         
-    }
-    
-    private void EnterDeadState()
-    {
-        animator.SetBool("isDead",true);
-        Destroy(gameObject);
-    }
-    private void UpdateDeadState()
-    {
-        
-    }
-
-    private void ExitDeadState()
-    {
+    // }
+   
+    // void Flip()
+    // {
+    //     mustPatrol = false;
+    //     transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
        
+    //     walkSpeed *= -1;
+    //     mustPatrol = true;
+        
+    // }
+
+    void Start()
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+    void Update() {
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
+        if(distToPlayer < agroRange)
+        {
+            ChasePlayer();
+            
+        }else{
+
+            StopChasingPlayer();
+        }
+    }
+    private void ChasePlayer()
+    {   
+        animator.SetFloat("Speed",Mathf.Abs(walkSpeed));
+            if(transform.position.x < player.position.x)
+            {
+                rb.velocity = new Vector2(walkSpeed,0);
+                transform.localScale = new Vector2(0.135049f,0.1411495f);
+            }
+            else if(transform.position.x > player.position.x)
+            {
+                rb.velocity = new Vector2(-walkSpeed,0);
+                transform.localScale = new Vector2(-0.135049f,0.1411495f);
+                
+            }
+
     }
 
-    private void Damage(float attackDetails)
+    private void StopChasingPlayer()
     {
-             //Hit particle
-
-        if(currentHealth < 0.0f)
-        {
-            SwitchState(State.Hurt);
-
-        }
-        else if (currentHealth <= 0.0f)
-        {
-            SwitchState(State.Dead);
-        }
-    }
-
-    private void Flip()
-    {
-        facingDirection *= -1;
-        alive.transform.Rotate(0.0f,180.0f,0.0f);
-    }
-    private void SwitchState(State state)
-    {
-        switch(currentState)
-        {
-            case State.Walking:
-                ExitWalkingState();
-                break;
-            case State.Attack:
-                ExitAttackState();
-                break;           
-            case State.Hurt:
-                ExitHurtState();
-                break;        
-            case State.Dead:
-                ExitDeadState();
-                break;
-        }
-     switch(state)
-        {
-            case State.Walking:
-                EnterWalkingState();
-                break;
-            case State.Attack:
-                EnterAttackState();
-                break;           
-            case State.Hurt:
-                EnterHurtState();
-                break;        
-            case State.Dead:
-                EnterDeadState();
-                break;
-        }
-        currentState = state;
-    }
-
-    private void OnDrawGizmos() {
-        Gizmos.DrawLine(groundcheck.position, new Vector2(groundcheck.position.x,groundcheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position,new Vector2(wallCheck.position.x + wallCheckDistance,wallCheck.position.y));
+        animator.SetFloat("Speed",Mathf.Abs(walkSpeed));
+        rb.velocity = Vector2.zero;
     }
 }
+
+
